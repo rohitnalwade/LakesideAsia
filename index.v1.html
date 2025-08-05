@@ -10,10 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Warm Neutrals with Corporate Blue & Tech Teal -->
-    <!-- Application Structure Plan: A top-down, single-page narrative designed for an investor audience. The structure flows from the high-level vision to the concrete portfolio, and the unique strategic advantage (synergy). This non-linear navigation via a sticky header allows investors to jump to sections of interest. This dashboard-like approach is more engaging and respects the audience's time more than a linear document, facilitating quick comprehension of the entire business case. -->
+    <!-- Application Structure Plan: A top-down, single-page narrative designed for an investor audience. The structure flows from the high-level vision to the concrete portfolio, the unique strategic advantage (synergy), and finally, the founder's credibility. This non-linear navigation via a sticky header allows investors to jump to sections of interest (e.g., straight to the founder's track record). This dashboard-like approach is more engaging and respects the audience's time more than a linear document, facilitating quick comprehension of the entire business case. -->
     <!-- Visualization & Content Choices: 
         1. Report Info: Core business units. Goal: Inform & Compare. Viz/Method: Interactive cards. Interaction: On-click reveal of details for each venture. Justification: Allows investors to quickly grasp the scope of each company and compare them side-by-side without being overwhelmed by text. Method: HTML/CSS/JS.
         2. Report Info: Synergy model. Goal: Explain Relationships. Viz/Method: Interactive 'flywheel' diagram. Interaction: Hovering over connection paths reveals specific synergy details. Justification: Visually demonstrates the core value proposition and competitive advantage in a dynamic way that a static list cannot. Method: HTML/CSS/JS.
+        3. Report Info: Founder's achievements. Goal: Quantify & build credibility. Viz/Method: Horizontal Bar Chart. Interaction: Tooltips on hover for exact figures. Justification: Translates qualitative achievements into quantitative, easily digestible metrics that appeal to an investor mindset. Library: Chart.js (Canvas).
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -54,6 +55,20 @@
         .synergy-point:hover {
             transform: scale(1.5);
         }
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 800px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) { 
+            .chart-container { 
+                height: 400px; 
+            } 
+        }
     </style>
 </head>
 <body class="text-slate-800">
@@ -67,6 +82,7 @@
                 <a href="#vision" class="nav-link font-medium pb-1">The Vision</a>
                 <a href="#portfolio" class="nav-link font-medium pb-1">The Portfolio</a>
                 <a href="#synergy" class="nav-link font-medium pb-1">The Advantage</a>
+                <a href="#founder" class="nav-link font-medium pb-1">The Founder</a>
             </div>
             <div class="md:hidden">
                 <button id="menu-btn" class="text-slate-800 focus:outline-none">
@@ -78,6 +94,7 @@
             <a href="#vision" class="block py-2 px-4 text-sm hover:bg-slate-100">The Vision</a>
             <a href="#portfolio" class="block py-2 px-4 text-sm hover:bg-slate-100">The Portfolio</a>
             <a href="#synergy" class="block py-2 px-4 text-sm hover:bg-slate-100">The Advantage</a>
+            <a href="#founder" class="block py-2 px-4 text-sm hover:bg-slate-100">The Founder</a>
         </div>
     </header>
 
@@ -86,10 +103,10 @@
             <div class="container mx-auto px-6 text-center">
                 <h1 class="text-4xl md:text-6xl font-bold text-slate-900 mb-4">A Proven Founder-Led<br><span class="text-blue-800">Venture Creation Platform</span></h1>
                 <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-600 mb-8">
-                    Lakeside Asia Holdings is a venture creation platform that builds and scales synergistic companies at the intersection of technology and human well-being. Our holding company structure provides strategic oversight and shared resources, enabling our ventures to achieve accelerated growth with greater capital efficiency.
+                    Lakeside Asia Holdings is a "forever company" structured as a holding entity to incubate, scale, and operate a portfolio of synergistic, high-growth ventures at the intersection of technology, human well-being, and enterprise solutions.
                 </p>
                 <div class="text-lg text-slate-600 max-w-3xl mx-auto">
-                    <p>The "Lakeside" philosophy, conceived on the banks of Powai Lake, is one of building enduring value. By providing centralized expertise and operational leverage, we de-risk the path to market and create a capital-efficient ecosystem for innovation.</p>
+                    <p>The "Lakeside" philosophy, conceived on the banks of Powai Lake near IIT Bombay, is to build a robust parent organization that provides strategic oversight and operational leverage, allowing its subsidiary ventures to achieve accelerated growth and reduced time-to-market.</p>
                 </div>
             </div>
         </section>
@@ -128,7 +145,7 @@
                 </div>
 
                 <div id="portfolio-details" class="bg-white p-8 rounded-lg shadow-lg min-h-[20rem] flex items-center justify-center transition-opacity duration-500">
-                    <!-- Content will be dynamically inserted here -->
+                    <p class="text-slate-500 text-lg">Select a venture above to see the details.</p>
                 </div>
             </div>
         </section>
@@ -169,6 +186,34 @@
                 </div>
             </div>
         </section>
+
+        <section id="founder" class="py-20">
+             <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">Leadership & Vision</h2>
+                    <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">
+                        Lakeside Asia Holdings is led by a founder with a proven, 20+ year history of creating shareholder value through building and exiting companies. His unique dual expertise in technology and psychology provides authentic, effective leadership across our ventures.
+                    </p>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                     <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-800 mb-4">Rohit Nalwade: A Track Record of Success</h3>
+                             <p class="text-slate-600 mb-6">
+                                Rohit's recognition by <span class="font-semibold text-slate-700">BusinessWeek</span> as a Top Young Asian Entrepreneur, his fellowships at the <span class="font-semibold text-slate-700">University of Cambridge</span>, and his advisory role to a SEBI-registered VC fund with over <span class="font-semibold text-slate-700">$60 million in AUM</span> underscore his standing within the business and investment community.
+                            </p>
+                            <h4 class="font-bold text-slate-800 mb-2">Our Vision</h4>
+                            <p class="text-slate-600">
+                                To build Lakeside Asia Holdings into a premier, multi-asset platform that creates a diversified portfolio of cash-flow positive, market-leading companies, poised for sustained long-term growth and strategic, high-value exits.
+                            </p>
+                        </div>
+                        <div class="chart-container">
+                             <canvas id="founder-chart"></canvas>
+                        </div>
+                     </div>
+                </div>
+             </div>
+        </section>
     </main>
     
     <footer class="bg-slate-900 text-white py-8">
@@ -195,7 +240,7 @@
                     <p class="text-slate-600 text-lg">
                         <strong class="text-slate-800">Offering:</strong> Provides comprehensive, confidential psychology and psychiatry services to corporate employees. The platform leverages technology for efficient service delivery, data-driven insights, and scalability.<br><br>
                         <strong class="text-slate-800">Market:</strong> Tapping into the rapidly growing ~$17Bn global corporate wellness market, with a critical need in India and Asia for high-quality, accessible mental healthcare.<br><br>
-                        <strong class="text-slate-800">Traction:</strong> Successfully serving 50+ corporate clients and their 40,000+ employees across 4 countries, demonstrating a proven and scalable model.
+                        <strong class="text-slate-800">Traction:</strong> Builds upon the founder's expertise as a TISS-trained counselling psychologist with over 400 client engagements, bringing deep domain credibility.
                     </p>`
             },
             tech: {
@@ -206,7 +251,7 @@
                     <p class="text-slate-600 text-lg">
                         <strong class="text-slate-800">Offering:</strong> Specializes in high-value consulting for IoT, AI, and automotive electronics.<br><br>
                         <strong class="text-slate-800">Market:</strong> Serves the enterprise digital transformation market, where specialized expertise commands premium margins.<br><br>
-                        <strong class="text-slate-800">Traction:</strong> Established elite-level credibility with a proven project execution history for blue-chip clients, including a Fortune 500 conglomerate, one of India's largest FMCG companies, and a leading Indian automotive giant.
+                        <strong class="text-slate-800">Traction:</strong> Established elite-level credibility with a proven project execution history for blue-chip clients, including <strong class="text-blue-800">Reliance Industries (Fortune 500)</strong>, <strong class="text-blue-800">ITC Limited</strong>, and <strong class="text-blue-800">Mahindra & Mahindra</strong>. Generates immediate cash flow.
                     </p>`
             },
             breath: {
@@ -274,6 +319,73 @@
             });
         });
         
+        const founderCtx = document.getElementById('founder-chart').getContext('2d');
+        const founderChart = new Chart(founderCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Years of Leadership', 'Companies Built/Scaled', 'Psychology Clients Supported', 'Major Enterprise Clients'],
+                datasets: [{
+                    label: 'Founder Track Record',
+                    data: [20, 4, 400, 5],
+                    backgroundColor: [
+                        'rgba(30, 64, 175, 0.7)',
+                        'rgba(20, 184, 166, 0.7)',
+                        'rgba(37, 99, 235, 0.7)',
+                        'rgba(71, 85, 105, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(30, 64, 175, 1)',
+                        'rgba(20, 184, 166, 1)',
+                        'rgba(37, 99, 235, 1)',
+                        'rgba(71, 85, 105, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.x !== null) {
+                                    if(context.label === 'Years of Leadership'){
+                                        label += context.parsed.x + '+';
+                                    } else {
+                                        label += context.parsed.x;
+                                    }
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Key Metrics'
+                        }
+                    },
+                    y: {
+                       ticks: {
+                            autoSkip: false
+                       }
+                    }
+                }
+            }
+        });
+
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('main section');
         const header = document.getElementById('header');
@@ -293,11 +405,6 @@
                     link.classList.add('active');
                 }
             });
-        });
-
-        // On page load, default to showing the Technologies card details
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('card-tech').click();
         });
 
     </script>
