@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Overview | Lakeside Asia Holdings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+        }
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .no-print {
+                display: none;
+            }
+            .print-container {
+                box-shadow: none;
+                border: none;
+                margin: 0;
+                padding: 0;
+            }
+        }
+        .section-title {
+            border-bottom: 2px solid #1D4ED8;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #1E3A8A;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <div class="print-container container mx-auto max-w-4xl my-8 md:my-12 p-8 md:p-12 bg-white rounded-lg shadow-lg">
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
+            <div>
+                <div class="flex items-center space-x-3 mb-2">
+                    <i class="fas fa-mountain text-blue-600 text-4xl"></i>
+                    <h1 class="text-4xl font-bold text-slate-900">Lakeside Asia Holdings</h1>
+                </div>
+                <p class="text-xl text-slate-600">A Proven Platform for Accelerated Venture Creation</p>
+            </div>
+            <div class="no-print mt-4 md:mt-0">
+                <button onclick="window.print()" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                    <i class="fas fa-print mr-2"></i>Print or Save as PDF
+                </button>
+            </div>
+        </header>
+
+        <!-- About Section -->
+        <section id="about" class="mb-10">
+            <h2 class="section-title">About Us</h2>
+            <p class="text-slate-700 leading-relaxed">
+                Lakeside Asia Holdings is a venture creation platform that builds and scales companies focused on solving critical challenges in human well-being. As a holding company, we provide our ventures with shared expertise, resources, and strategic direction, creating a powerful and efficient platform for them to grow faster and with less risk.
+            </p>
+        </section>
+
+        <!-- Core Principles Section -->
+        <section class="mb-10">
+            <h2 class="section-title">Our Core Principles</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+                    <h3 class="text-xl font-semibold text-green-800 mb-2">Accelerated Growth</h3>
+                    <p class="text-slate-600">Our platform enables ventures to scale faster by leveraging shared resources and expertise.</p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
+                    <h3 class="text-xl font-semibold text-blue-800 mb-2">Reduced Risk</h3>
+                    <p class="text-slate-600">The holding company structure provides financial stability and strategic oversight.</p>
+                </div>
+                <div class="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500">
+                    <h3 class="text-xl font-semibold text-purple-800 mb-2">Synergistic Value</h3>
+                    <p class="text-slate-600">Our ventures create a flywheel of shared expertise, market access, and intellectual property.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="mb-10">
+            <h2 class="section-title">Our Portfolio</h2>
+            <p class="text-slate-700 leading-relaxed mb-6">
+                We are incubating three distinct but interconnected companies, each targeting a secular, multi-billion dollar addressable market.
+            </p>
+            <div class="space-y-6">
+                <div class="p-6 border border-slate-200 rounded-lg">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2">Lakeside Asia Health</h3>
+                    <p class="text-slate-600">A B2B technology-enabled mental health services company serving over 50,000 employees across Asia, the Middle East, and Europe.</p>
+                </div>
+                <div class="p-6 border border-slate-200 rounded-lg">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2">Lakeside Asia Technologies</h3>
+                    <p class="text-slate-600">A deep-technology consulting firm and the group's R&D engine, with over 200 projects completed and 15 patents filed.</p>
+                </div>
+                <div class="p-6 border border-slate-200 rounded-lg">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2">Lakeside Asia Breath Easier</h3>
+                    <p class="text-slate-600">An environmental tech venture pioneering "Air Quality as a Service" (AQaaS) with partnerships in smart city development.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Lakeside Advantage Section -->
+        <section id="advantage" class="mb-10">
+            <h2 class="section-title">The Lakeside Advantage</h2>
+            <p class="text-slate-700 leading-relaxed mb-6">
+                Our holding company structure is a strategic force multiplier. The synergistic flywheel between our ventures provides key benefits:
+            </p>
+            <ul class="list-disc list-inside text-slate-700 space-y-2">
+                <li><span class="font-semibold">Capital Efficiency:</span> Shared resources and infrastructure reduce capital requirements for each venture.</li>
+                <li><span class="font-semibold">Risk Mitigation:</span> A diversified portfolio and shared expertise reduce overall investment risk.</li>
+                <li><span class="font-semibold">Accelerated Growth:</span> Cross-venture collaboration and shared market access enable faster scaling.</li>
+            </ul>
+        </section>
+
+        <!-- Contact Section -->
+        <footer id="contact">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="bg-slate-100 p-6 rounded-lg flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+                <div>
+                    <p class="text-slate-800 font-semibold">Ready to explore partnership opportunities?</p>
+                    <p class="text-slate-600">Get in touch with our team to learn more.</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <p class="text-slate-800"><i class="fas fa-envelope mr-2 text-blue-600"></i> info@lakesideasia.com</p>
+                    <p class="text-slate-800"><i class="fas fa-phone mr-2 text-blue-600"></i> +91 9967 34 33 32</p>
+                </div>
+            </div>
+            <p class="text-center text-slate-500 mt-8 text-sm">&copy; 2024 Lakeside Asia Holdings. All rights reserved.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
