@@ -818,6 +818,8 @@
 
     <!-- START: JavaScript for Enhanced Functionality -->
     <script>
+        // This script contains the original UI/UX enhancements.
+        // The Firebase logic is in the <script type="module"> below.
         // START: Navigation Scrollspy and Mobile Menu
         const header = document.getElementById('header');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -883,108 +885,6 @@
         });
         // END: Interactive Synergy Diagram
 
-        // START: Enhanced Form Validation and Submission
-        function validateField(field, errorElement, validationFn) {
-            const isValid = validationFn(field.value);
-            if (isValid) {
-                field.classList.remove('border-red-500');
-                field.classList.add('border-green-500');
-                errorElement.style.display = 'none';
-            } else {
-                field.classList.remove('border-green-500');
-                field.classList.add('border-red-500');
-                errorElement.style.display = 'block';
-            }
-            return isValid;
-        }
-
-        function validateEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
-
-        function validateRequired(value) {
-            return value.trim().length > 0;
-        }
-
-        // Contact Form
-        const contactForm = document.getElementById('contact-form');
-        const nameField = document.getElementById('name');
-        const emailField = document.getElementById('email');
-        const messageField = document.getElementById('message');
-
-        // Real-time validation
-        nameField.addEventListener('blur', () => {
-            validateField(nameField, document.getElementById('name-error'), validateRequired);
-        });
-
-        emailField.addEventListener('blur', () => {
-            validateField(emailField, document.getElementById('email-error'), validateEmail);
-        });
-
-        messageField.addEventListener('blur', () => {
-            validateField(messageField, document.getElementById('message-error'), validateRequired);
-        });
-
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const nameValid = validateField(nameField, document.getElementById('name-error'), validateRequired);
-            const emailValid = validateField(emailField, document.getElementById('email-error'), validateEmail);
-            const messageValid = validateField(messageField, document.getElementById('message-error'), validateRequired);
-
-            if (nameValid && emailValid && messageValid) {
-                // Simulate form submission
-                const submitBtn = contactForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
-                submitBtn.disabled = true;
-
-                setTimeout(() => {
-                    document.getElementById('form-success').style.display = 'block';
-                    document.getElementById('form-error').style.display = 'none';
-                    contactForm.reset();
-
-                    // Reset field styles
-                    [nameField, emailField, messageField].forEach(field => {
-                        field.classList.remove('border-green-500', 'border-red-500');
-                    });
-
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }, 2000);
-            }
-        });
-
-        // Newsletter Form
-        const newsletterForm = document.getElementById('newsletter-form');
-        const newsletterEmailField = document.getElementById('newsletter-email');
-
-        newsletterForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const emailValid = validateField(newsletterEmailField, document.getElementById('newsletter-error'), validateEmail);
-
-            if (emailValid) {
-                const submitBtn = newsletterForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Subscribing...';
-                submitBtn.disabled = true;
-
-                setTimeout(() => {
-                    document.getElementById('newsletter-success').style.display = 'block';
-                    newsletterForm.reset();
-                    newsletterEmailField.classList.remove('border-green-500', 'border-red-500');
-
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }, 2000);
-            }
-        });
-        // END: Enhanced Form Validation and Submission
-
         // START: Smooth Scrolling for Anchor Links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1044,16 +944,172 @@
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             updateActiveNavLink();
-
-            // Show newsletter sticky after 30 seconds (optional)
-            // setTimeout(() => {
-            //     const newsletterSticky = document.querySelector('.newsletter-sticky');
-            //     if (newsletterSticky) {
-            //         newsletterSticky.classList.add('show');
-            //     }
-            // }, 30000);
         });
     </script>
     <!-- END: JavaScript for Enhanced Functionality -->
+
+    <!-- START: Firebase Integration -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyC9YLLWA7hb7A23y7g5w87tfPJ-j-mGJlc",
+          authDomain: "lakeside-health-2eed9.firebaseapp.com",
+          projectId: "lakeside-health-2eed9",
+          storageBucket: "lakeside-health-2eed9.firebasestorage.app",
+          messagingSenderId: "118115163034",
+          appId: "1:118115163034:web:111a7bb9ba56fd28787823",
+          measurementId: "G-HS420T4JVC"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // --- Form Validation and Submission Logic ---
+
+        function validateField(field, errorElement, validationFn) {
+            const isValid = validationFn(field.value);
+            if (isValid) {
+                field.classList.remove('border-red-500');
+                field.classList.add('border-green-500');
+                errorElement.style.display = 'none';
+            } else {
+                field.classList.remove('border-green-500');
+                field.classList.add('border-red-500');
+                errorElement.style.display = 'block';
+            }
+            return isValid;
+        }
+
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function validateRequired(value) {
+            return value.trim().length > 0;
+        }
+
+        // Contact Form
+        const contactForm = document.getElementById('contact-form');
+        const nameField = document.getElementById('name');
+        const emailField = document.getElementById('email');
+        const companyField = document.getElementById('company');
+        const interestField = document.getElementById('interest');
+        const messageField = document.getElementById('message');
+        const formSuccessMessage = document.getElementById('form-success');
+        const formErrorMessage = document.getElementById('form-error');
+
+        // Real-time validation
+        nameField.addEventListener('blur', () => {
+            validateField(nameField, document.getElementById('name-error'), validateRequired);
+        });
+
+        emailField.addEventListener('blur', () => {
+            validateField(emailField, document.getElementById('email-error'), validateEmail);
+        });
+
+        messageField.addEventListener('blur', () => {
+            validateField(messageField, document.getElementById('message-error'), validateRequired);
+        });
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Hide previous messages
+            formSuccessMessage.style.display = 'none';
+            formErrorMessage.style.display = 'none';
+
+            const nameValid = validateField(nameField, document.getElementById('name-error'), validateRequired);
+            const emailValid = validateField(emailField, document.getElementById('email-error'), validateEmail);
+            const messageValid = validateField(messageField, document.getElementById('message-error'), validateRequired);
+
+            if (nameValid && emailValid && messageValid) {
+                const submitBtn = contactForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+                submitBtn.disabled = true;
+
+                try {
+                    // Add a new document with a generated id.
+                    const docRef = await addDoc(collection(db, "contactSubmissions"), {
+                        name: nameField.value,
+                        email: emailField.value,
+                        company: companyField.value,
+                        interest: interestField.value,
+                        message: messageField.value,
+                        submittedAt: new Date()
+                    });
+                    console.log("Document written with ID: ", docRef.id);
+                    
+                    formSuccessMessage.style.display = 'block';
+                    contactForm.reset();
+
+                    // Reset field styles
+                    [nameField, emailField, messageField].forEach(field => {
+                        field.classList.remove('border-green-500', 'border-red-500');
+                    });
+
+                } catch (error) {
+                    console.error("Error adding document: ", error);
+                    formErrorMessage.style.display = 'block';
+                } finally {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            }
+        });
+
+        // Newsletter Form
+        const newsletterForm = document.getElementById('newsletter-form');
+        const newsletterEmailField = document.getElementById('newsletter-email');
+        const newsletterSuccessMessage = document.getElementById('newsletter-success');
+        const newsletterErrorMessage = document.getElementById('newsletter-error');
+
+        newsletterForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Hide previous messages
+            newsletterSuccessMessage.style.display = 'none';
+            newsletterErrorMessage.style.display = 'none';
+
+            const emailValid = validateField(newsletterEmailField, newsletterErrorMessage, validateEmail);
+
+            if (emailValid) {
+                const submitBtn = newsletterForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Subscribing...';
+                submitBtn.disabled = true;
+
+                try {
+                    // Add a new document with a generated id.
+                    const docRef = await addDoc(collection(db, "newsletterSubscriptions"), {
+                        email: newsletterEmailField.value,
+                        subscribedAt: new Date()
+                    });
+                    console.log("Newsletter subscription added with ID: ", docRef.id);
+
+                    newsletterSuccessMessage.style.display = 'block';
+                    newsletterForm.reset();
+                    newsletterEmailField.classList.remove('border-green-500', 'border-red-500');
+
+                } catch (error) {
+                    console.error("Error adding newsletter subscription: ", error);
+                    newsletterErrorMessage.textContent = 'Sorry, there was an error. Please try again.';
+                    newsletterErrorMessage.style.display = 'block';
+                } finally {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            }
+        });
+    </script>
+    <!-- END: Firebase Integration -->
 </body>
 </html>
