@@ -85,19 +85,35 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
-        /* Interactive Diagram Styles */
-        .synergy-container {
+        /* REDESIGNED Interactive Diagram Styles */
+        .synergy-diagram {
+            display: grid;
+            grid-template-areas:
+                ".      top    ."
+                "left   center right"
+                ".      bottom .";
+            justify-items: center;
+            align-items: center;
             position: relative;
-            min-height: 400px;
+            min-height: 450px;
             background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
             border-radius: 1rem;
             padding: 2rem;
         }
+        
+        .synergy-diagram__svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible; /* Allows lines to draw correctly */
+            z-index: 1;
+        }
 
         .synergy-node {
-            position: absolute;
-            width: 120px;
-            height: 120px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             border: 3px solid #1E3A8A;
             background: white;
@@ -110,6 +126,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 2; /* Nodes above lines */
+            position: relative; /* Needed for grid placement */
         }
 
         .synergy-node:hover {
@@ -118,13 +136,32 @@
             color: white;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
-
-        .synergy-line {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, #93C5FD, #60A5FA);
-            z-index: 1;
+        
+        #node-center { grid-area: center; background: #1E3A8A; color: white; }
+        #node-health { grid-area: left; }
+        #node-tech { grid-area: right; }
+        #node-breath { grid-area: top; }
+        
+        @media (max-width: 768px) {
+            .synergy-diagram {
+                grid-template-areas:
+                    "top"
+                    "left"
+                    "center"
+                    "right"
+                    "bottom";
+                gap: 2rem;
+                min-height: auto;
+            }
+             .synergy-node {
+                width: 110px;
+                height: 110px;
+            }
+            .synergy-diagram__svg {
+                display: none; /* Hide SVG lines on mobile for a simpler stacked layout */
+            }
         }
+
 
         /* Form Enhancement */
         .form-input {
@@ -164,38 +201,6 @@
             display: none;
         }
 
-        /* Newsletter Subscription Sticky */
-        .newsletter-sticky {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(135deg, #1D4ED8, #2563EB);
-            color: white;
-            padding: 1rem;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-            z-index: 50;
-        }
-
-        .newsletter-sticky.show {
-            transform: translateY(0);
-        }
-
-        /* Mobile Responsive Enhancements */
-        @media (max-width: 768px) {
-            .synergy-node {
-                width: 80px;
-                height: 80px;
-                font-size: 0.7rem;
-            }
-
-            .btn-primary, .btn-secondary {
-                padding: 0.75rem 1.5rem;
-                font-size: 0.875rem;
-            }
-        }
-
         /* Accessibility Enhancements */
         .skip-link {
             position: absolute;
@@ -210,26 +215,6 @@
 
         .skip-link:focus {
             top: 6px;
-        }
-
-        /* High contrast mode support */
-        @media (prefers-contrast: high) {
-            .company-card {
-                border: 2px solid #000;
-            }
-
-            .btn-primary {
-                border: 2px solid #000;
-            }
-        }
-
-        /* Reduced motion support */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
         }
     </style>
     <!-- END: Enhanced Custom Styles -->
@@ -525,7 +510,7 @@
         </section>
         <!-- END: Portfolio Section -->
 
-        <!-- START: Advantage Section with Interactive Diagram -->
+        <!-- START: Advantage Section with REDESIGNED Interactive Diagram -->
         <section id="advantage" class="py-20 px-4 bg-slate-50" aria-labelledby="advantage-heading">
             <div class="container mx-auto max-w-6xl">
                 <h2 id="advantage-heading" class="text-3xl md:text-4xl font-bold text-slate-900 mb-6 text-center">The Lakeside Advantage</h2>
@@ -534,39 +519,23 @@
                 </p>
 
                 <!-- START: Interactive Synergy Diagram -->
-                <div class="synergy-container mb-12" role="img" aria-label="Interactive diagram showing synergies between portfolio companies">
-                    <h3 class="text-xl font-semibold text-center mb-8">The Synergistic Flywheel</h3>
-                    <p class="text-center text-slate-600 mb-8">Hover over each node to explore specific interactions</p>
+                <div class="synergy-diagram mb-12" role="img" aria-label="Interactive diagram showing synergies between portfolio companies">
+                    <svg class="synergy-diagram__svg" id="synergy-svg"></svg>
+                    
+                    <div id="node-center" class="synergy-node" data-info="Lakeside Holdings: Provides shared resources, expertise, market access, and strategic direction to all ventures" tabindex="0" role="button" aria-label="Lakeside Asia Holdings central hub">
+                        <span>Lakeside<br>Holdings<br><small>Central Hub</small></span>
+                    </div>
 
-                    <!-- Synergy Lines -->
-                    <div class="synergy-line" style="top: 50%; left: 20%; width: 25%; transform: translateY(-50%) rotate(-15deg);"></div>
-                    <div class="synergy-line" style="top: 30%; left: 45%; width: 25%; transform: translateY(-50%) rotate(45deg);"></div>
-                    <div class="synergy-line" style="top: 70%; left: 45%; width: 25%; transform: translateY(-50%) rotate(-45deg);"></div>
-
-                    <!-- Company Nodes -->
-                    <div class="synergy-node" style="top: 50%; left: 10%;" 
-                         data-info="Health: Mental wellness expertise flows to Technologies' AI development and Breathe Easier's wellness applications"
-                         tabindex="0" role="button" aria-label="Lakeside Asia Health synergies">
+                    <div id="node-health" class="synergy-node" data-info="Health: Mental wellness expertise flows to Technologies' AI development and Breathe Easier's wellness applications" tabindex="0" role="button" aria-label="Lakeside Asia Health synergies">
                         <span>Health<br><small>Mental Wellness</small></span>
                     </div>
 
-                    <div class="synergy-node" style="top: 20%; right: 10%;" 
-                         data-info="Technologies: AI/IoT capabilities enhance Health's platforms and Breathe Easier's sensor networks"
-                         tabindex="0" role="button" aria-label="Lakeside Asia Technologies synergies">
+                    <div id="node-tech" class="synergy-node" data-info="Technologies: AI/IoT capabilities enhance Health's platforms and Breathe Easier's sensor networks" tabindex="0" role="button" aria-label="Lakeside Asia Technologies synergies">
                         <span>Technologies<br><small>Deep Tech R&D</small></span>
                     </div>
 
-                    <div class="synergy-node" style="bottom: 20%; right: 10%;" 
-                         data-info="Breathe Easier: Environmental data supports Health's wellness insights and Technologies' smart city solutions"
-                         tabindex="0" role="button" aria-label="Lakeside Asia Breathe Easier synergies">
+                    <div id="node-breathe" class="synergy-node" data-info="Breathe Easier: Environmental data supports Health's wellness insights and Technologies' smart city solutions" tabindex="0" role="button" aria-label="Lakeside Asia Breathe Easier synergies">
                         <span>Breathe Easier<br><small>AQaaS</small></span>
-                    </div>
-
-                    <!-- Central Hub -->
-                    <div class="synergy-node" style="top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1E3A8A; color: white;" 
-                         data-info="Lakeside Holdings: Provides shared resources, expertise, market access, and strategic direction to all ventures"
-                         tabindex="0" role="button" aria-label="Lakeside Asia Holdings central hub">
-                        <span>Lakeside<br>Holdings<br><small>Central Hub</small></span>
                     </div>
                 </div>
 
@@ -818,72 +787,90 @@
 
     <!-- START: JavaScript for Enhanced Functionality -->
     <script>
-        // This script contains the original UI/UX enhancements.
-        // The Firebase logic is in the <script type="module"> below.
         // START: Navigation Scrollspy and Mobile Menu
         const header = document.getElementById('header');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const navLinks = document.querySelectorAll('.nav-link');
 
-        // Mobile menu toggle
         mobileMenuBtn.addEventListener('click', () => {
             const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
             mobileMenu.classList.toggle('hidden');
             mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
-
-            // Update icon
             const icon = mobileMenuBtn.querySelector('i');
             icon.className = mobileMenu.classList.contains('hidden') ? 'fas fa-bars text-slate-700' : 'fas fa-times text-slate-700';
         });
 
-        // Scrollspy for navigation
         function updateActiveNavLink() {
-            const sections = document.querySelectorAll('section[id]');
             const scrollPos = window.scrollY + header.offsetHeight + 50;
-
-            sections.forEach(section => {
+            document.querySelectorAll('section[id]').forEach(section => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.offsetHeight;
                 const sectionId = section.getAttribute('id');
-                const navLink = document.querySelector(`a[href="#${sectionId}"]`);
-
+                const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
                 if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
                     navLinks.forEach(link => link.classList.remove('active'));
                     if (navLink) navLink.classList.add('active');
                 }
             });
         }
-
         window.addEventListener('scroll', updateActiveNavLink);
         // END: Navigation Scrollspy and Mobile Menu
 
-        // START: Interactive Synergy Diagram
-        const synergyNodes = document.querySelectorAll('.synergy-node');
-        const synergyInfo = document.getElementById('synergy-info');
-
-        synergyNodes.forEach(node => {
-            const showInfo = () => {
-                const info = node.getAttribute('data-info');
-                synergyInfo.innerHTML = `<p>${info}</p>`;
+        // START: Redesigned Interactive Synergy Diagram Logic
+        function drawSynergyLines() {
+            const svg = document.getElementById('synergy-svg');
+            if (!svg || window.innerWidth < 768) {
+                if(svg) svg.innerHTML = ''; // Clear lines on mobile
+                return;
             };
 
+            const centerNode = document.getElementById('node-center');
+            const satelliteNodes = [
+                document.getElementById('node-health'),
+                document.getElementById('node-tech'),
+                document.getElementById('node-breath')
+            ];
+
+            const getCenterPoint = (el) => {
+                const rect = el.getBoundingClientRect();
+                const svgRect = svg.getBoundingClientRect();
+                return {
+                    x: rect.left - svgRect.left + rect.width / 2,
+                    y: rect.top - svgRect.top + rect.height / 2
+                };
+            };
+
+            const centerPoint = getCenterPoint(centerNode);
+            svg.innerHTML = ''; // Clear previous lines
+
+            satelliteNodes.forEach(node => {
+                const nodePoint = getCenterPoint(node);
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', centerPoint.x);
+                line.setAttribute('y1', centerPoint.y);
+                line.setAttribute('x2', nodePoint.x);
+                line.setAttribute('y2', nodePoint.y);
+                line.setAttribute('stroke', '#93C5FD');
+                line.setAttribute('stroke-width', '2');
+                svg.appendChild(line);
+            });
+        }
+        
+        const synergyInfo = document.getElementById('synergy-info');
+        document.querySelectorAll('.synergy-node').forEach(node => {
+            const showInfo = () => {
+                synergyInfo.innerHTML = `<p>${node.getAttribute('data-info')}</p>`;
+            };
             const hideInfo = () => {
                 synergyInfo.innerHTML = '<p>Click or hover over any node to explore the synergistic relationships between our portfolio companies</p>';
             };
-
-            // Mouse events
             node.addEventListener('mouseenter', showInfo);
             node.addEventListener('mouseleave', hideInfo);
-
-            // Keyboard events for accessibility
             node.addEventListener('focus', showInfo);
             node.addEventListener('blur', hideInfo);
-
-            // Click events
-            node.addEventListener('click', showInfo);
         });
-        // END: Interactive Synergy Diagram
+        // END: Interactive Synergy Diagram Logic
 
         // START: Smooth Scrolling for Anchor Links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -892,11 +879,7 @@
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     const targetPosition = target.offsetTop - header.offsetHeight - 20;
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                    // Close mobile menu if open
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
                     mobileMenu.classList.add('hidden');
                     mobileMenuBtn.setAttribute('aria-expanded', 'false');
                     mobileMenuBtn.querySelector('i').className = 'fas fa-bars text-slate-700';
@@ -906,11 +889,6 @@
         // END: Smooth Scrolling for Anchor Links
 
         // START: Intersection Observer for Animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -918,9 +896,8 @@
                     entry.target.style.transform = 'translateY(0)';
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
 
-        // Observe elements for animation
         document.querySelectorAll('.company-card, article').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
@@ -929,22 +906,14 @@
         });
         // END: Intersection Observer for Animations
 
-        // START: Keyboard Navigation Enhancement
-        document.addEventListener('keydown', (e) => {
-            // Escape key closes mobile menu
-            if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                mobileMenuBtn.querySelector('i').className = 'fas fa-bars text-slate-700';
-                mobileMenuBtn.focus();
-            }
-        });
-        // END: Keyboard Navigation Enhancement
-
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             updateActiveNavLink();
+            drawSynergyLines();
         });
+        
+        // Update diagram on resize
+        window.addEventListener('resize', drawSynergyLines);
     </script>
     <!-- END: JavaScript for Enhanced Functionality -->
 
@@ -970,24 +939,14 @@
         const db = getFirestore(app);
 
         // --- Form Validation and Submission Logic ---
-
         function validateField(field, errorElement, validationFn) {
             const isValid = validationFn(field.value);
-            if (isValid) {
-                field.classList.remove('border-red-500');
-                field.classList.add('border-green-500');
-                errorElement.style.display = 'none';
-            } else {
-                field.classList.remove('border-green-500');
-                field.classList.add('border-red-500');
-                errorElement.style.display = 'block';
-            }
+            errorElement.style.display = isValid ? 'none' : 'block';
             return isValid;
         }
 
         function validateEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         }
 
         function validateRequired(value) {
@@ -996,70 +955,36 @@
 
         // Contact Form
         const contactForm = document.getElementById('contact-form');
-        const nameField = document.getElementById('name');
-        const emailField = document.getElementById('email');
-        const companyField = document.getElementById('company');
-        const interestField = document.getElementById('interest');
-        const messageField = document.getElementById('message');
-        const formSuccessMessage = document.getElementById('form-success');
-        const formErrorMessage = document.getElementById('form-error');
-
-        // Real-time validation
-        nameField.addEventListener('blur', () => {
-            validateField(nameField, document.getElementById('name-error'), validateRequired);
-        });
-
-        emailField.addEventListener('blur', () => {
-            validateField(emailField, document.getElementById('email-error'), validateEmail);
-        });
-
-        messageField.addEventListener('blur', () => {
-            validateField(messageField, document.getElementById('message-error'), validateRequired);
-        });
-
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-
-            // Hide previous messages
-            formSuccessMessage.style.display = 'none';
-            formErrorMessage.style.display = 'none';
-
+            const nameField = document.getElementById('name');
+            const emailField = document.getElementById('email');
+            const messageField = document.getElementById('message');
             const nameValid = validateField(nameField, document.getElementById('name-error'), validateRequired);
             const emailValid = validateField(emailField, document.getElementById('email-error'), validateEmail);
             const messageValid = validateField(messageField, document.getElementById('message-error'), validateRequired);
 
             if (nameValid && emailValid && messageValid) {
                 const submitBtn = contactForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
                 submitBtn.disabled = true;
 
                 try {
-                    // Add a new document with a generated id.
-                    const docRef = await addDoc(collection(db, "contactSubmissions"), {
+                    await addDoc(collection(db, "contactSubmissions"), {
                         name: nameField.value,
                         email: emailField.value,
-                        company: companyField.value,
-                        interest: interestField.value,
+                        company: document.getElementById('company').value,
+                        interest: document.getElementById('interest').value,
                         message: messageField.value,
                         submittedAt: new Date()
                     });
-                    console.log("Document written with ID: ", docRef.id);
-                    
-                    formSuccessMessage.style.display = 'block';
+                    document.getElementById('form-success').style.display = 'block';
+                    document.getElementById('form-error').style.display = 'none';
                     contactForm.reset();
-
-                    // Reset field styles
-                    [nameField, emailField, messageField].forEach(field => {
-                        field.classList.remove('border-green-500', 'border-red-500');
-                    });
-
                 } catch (error) {
-                    console.error("Error adding document: ", error);
-                    formErrorMessage.style.display = 'block';
+                    document.getElementById('form-error').style.display = 'block';
                 } finally {
-                    submitBtn.innerHTML = originalText;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Send Message';
                     submitBtn.disabled = false;
                 }
             }
@@ -1067,44 +992,27 @@
 
         // Newsletter Form
         const newsletterForm = document.getElementById('newsletter-form');
-        const newsletterEmailField = document.getElementById('newsletter-email');
-        const newsletterSuccessMessage = document.getElementById('newsletter-success');
-        const newsletterErrorMessage = document.getElementById('newsletter-error');
-
         newsletterForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-
-            // Hide previous messages
-            newsletterSuccessMessage.style.display = 'none';
-            newsletterErrorMessage.style.display = 'none';
-
-            const emailValid = validateField(newsletterEmailField, newsletterErrorMessage, validateEmail);
-
-            if (emailValid) {
+            const emailField = document.getElementById('newsletter-email');
+            const errorEl = document.getElementById('newsletter-error');
+            if (validateField(emailField, errorEl, validateEmail)) {
                 const submitBtn = newsletterForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Subscribing...';
                 submitBtn.disabled = true;
-
                 try {
-                    // Add a new document with a generated id.
-                    const docRef = await addDoc(collection(db, "newsletterSubscriptions"), {
-                        email: newsletterEmailField.value,
+                    await addDoc(collection(db, "newsletterSubscriptions"), {
+                        email: emailField.value,
                         subscribedAt: new Date()
                     });
-                    console.log("Newsletter subscription added with ID: ", docRef.id);
-
-                    newsletterSuccessMessage.style.display = 'block';
+                    document.getElementById('newsletter-success').style.display = 'block';
+                    errorEl.style.display = 'none';
                     newsletterForm.reset();
-                    newsletterEmailField.classList.remove('border-green-500', 'border-red-500');
-
                 } catch (error) {
-                    console.error("Error adding newsletter subscription: ", error);
-                    newsletterErrorMessage.textContent = 'Sorry, there was an error. Please try again.';
-                    newsletterErrorMessage.style.display = 'block';
+                    errorEl.textContent = 'Sorry, there was an error. Please try again.';
+                    errorEl.style.display = 'block';
                 } finally {
-                    submitBtn.innerHTML = originalText;
+                    submitBtn.innerHTML = '<i class="fas fa-envelope mr-2"></i>Subscribe';
                     submitBtn.disabled = false;
                 }
             }
