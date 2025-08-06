@@ -88,14 +88,13 @@
         /* REDESIGNED Interactive Diagram Styles */
         .synergy-diagram {
             display: grid;
-            grid-template-areas:
-                ".      top    ."
-                "left   center right"
-                ".      bottom .";
-            justify-items: center;
+            /* Using a 4x4 grid for more precise control */
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
             align-items: center;
+            justify-items: center;
             position: relative;
-            min-height: 450px;
+            min-height: 500px;
             background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
             border-radius: 1rem;
             padding: 2rem;
@@ -107,13 +106,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            overflow: visible; /* Allows lines to draw correctly */
+            overflow: visible;
             z-index: 1;
         }
 
         .synergy-node {
-            width: 130px;
-            height: 130px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             border: 3px solid #1E3A8A;
             background: white;
@@ -127,7 +126,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             z-index: 2; /* Nodes above lines */
-            position: relative; /* Needed for grid placement */
+            position: relative;
         }
 
         .synergy-node:hover {
@@ -137,28 +136,41 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
         
-        #node-center { grid-area: center; background: #1E3A8A; color: white; }
-        #node-health { grid-area: left; }
-        #node-tech { grid-area: right; }
-        #node-breath { grid-area: top; }
+        /* Placing nodes on the 4x4 grid for a stable triangular layout */
+        #node-center {
+            grid-column: 2 / 4;
+            grid-row: 2 / 4;
+            background: #1E3A8A;
+            color: white;
+        }
+        #node-breath {
+            grid-column: 2 / 4;
+            grid-row: 1 / 2;
+        }
+        #node-health {
+            grid-column: 1 / 2;
+            grid-row: 3 / 5;
+        }
+        #node-tech {
+            grid-column: 4 / 5;
+            grid-row: 3 / 5;
+        }
         
         @media (max-width: 768px) {
             .synergy-diagram {
-                grid-template-areas:
-                    "top"
-                    "left"
-                    "center"
-                    "right"
-                    "bottom";
+                display: flex; /* Switch to a simple column layout on mobile */
+                flex-direction: column;
                 gap: 2rem;
                 min-height: auto;
+                padding: 2rem;
             }
              .synergy-node {
-                width: 110px;
-                height: 110px;
+                width: 120px;
+                height: 120px;
+                position: static; /* Reset position for flex layout */
             }
             .synergy-diagram__svg {
-                display: none; /* Hide SVG lines on mobile for a simpler stacked layout */
+                display: none; /* Hide SVG lines on mobile for a clean stacked layout */
             }
         }
 
@@ -534,7 +546,7 @@
                         <span>Technologies<br><small>Deep Tech R&D</small></span>
                     </div>
 
-                    <div id="node-breathe" class="synergy-node" data-info="Breathe Easier: Environmental data supports Health's wellness insights and Technologies' smart city solutions" tabindex="0" role="button" aria-label="Lakeside Asia Breathe Easier synergies">
+                    <div id="node-breath" class="synergy-node" data-info="Breathe Easier: Environmental data supports Health's wellness insights and Technologies' smart city solutions" tabindex="0" role="button" aria-label="Lakeside Asia Breathe Easier synergies">
                         <span>Breathe Easier<br><small>AQaaS</small></span>
                     </div>
                 </div>
